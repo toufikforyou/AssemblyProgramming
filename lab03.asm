@@ -1,13 +1,20 @@
 .model small
 .stack 100h
 .data
-suid db '2233081150$'
-myname db 'MH TOUFIK$'
-adcopt db 'Addition concept:$'
-subcopt db 'Substraction concept:$'
-fid db 'First number is: $'
-sid db 'Secound number is: $'
-result db 'Result: $'
+    suid db '2233081150$'
+    
+    myname db 'MH TOUFIK$'
+    
+    adcopt db 'Addition concept:$'
+    
+    subcopt db 'Substraction concept:$'
+    
+    fid db 'First number is: $'
+    
+    sid db 'Secound number is: $'
+    
+    result db 'Result: $'
+
 .code
 
 main proc
