@@ -2,24 +2,16 @@
 .stack 100h
 .data
     suid db '2233081150$'
-    
     myname db 'MH TOUFIK$'
-    
     adcopt db 'Addition concept:$'
-    
-    subcopt db 'Substraction concept:$'
-    
+    subcopt db 'Subtraction concept:$'
     fnum db 'First number is: $'
-    
-    snum db 'Secound number is: $'
-    
+    snum db 'Second number is: $'
     result db 'Result: $'
-    
     finput db ?
     sinput db ?
 
 .code
-
 main proc
     mov ax, @data
     mov ds, ax
@@ -70,7 +62,6 @@ main proc
     mov ah, 1
     int 21h
     mov finput, al
-    
     
     mov ah, 2
     mov dl, 10
@@ -133,7 +124,7 @@ main proc
     
     mov ah, 1
     int 21h
-    mov sinput, al
+    mov finput, al
     
     mov ah, 2
     mov dl, 10
@@ -169,7 +160,8 @@ main proc
     int 21h
         
     exit:
-    mov ah,4ch
+    mov ah, 4ch
     int 21h
     main endp
+    
 end main
