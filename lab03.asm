@@ -9,11 +9,14 @@
     
     subcopt db 'Substraction concept:$'
     
-    fid db 'First number is: $'
+    fnum db 'First number is: $'
     
-    sid db 'Secound number is: $'
+    snum db 'Secound number is: $'
     
     result db 'Result: $'
+    
+    finput db ?
+    sinput db ?
 
 .code
 
@@ -23,6 +26,12 @@ main proc
     
     mov ah, 9
     lea dx, suid
+    int 21h
+    
+    mov ah, 2
+    mov dl, 10
+    int 21h
+    mov dl, 13
     int 21h
     
     mov ah, 2
@@ -44,12 +53,6 @@ main proc
     int 21h
     
  skip:
-    mov ah, 2
-    mov dl, 10
-    int 21h
-    mov dl, 13
-    int 21h
-    
     mov ah, 9
     lea dx, adcopt
     int 21h
@@ -61,8 +64,13 @@ main proc
     int 21h
  
     mov ah, 9
-    lea dx, fid
+    lea dx, fnum
     int 21h
+    
+    mov ah, 1
+    int 21h
+    mov finput, al
+    
     
     mov ah, 2
     mov dl, 10
@@ -71,8 +79,12 @@ main proc
     int 21h
 
     mov ah, 9
-    lea dx, sid
+    lea dx, snum
     int 21h
+    
+    mov ah, 1
+    int 21h
+    mov sinput, al
         
     mov ah, 2
     mov dl, 10
@@ -80,8 +92,17 @@ main proc
     mov dl, 13
     int 21h
     
+    mov al, finput
+    add al, sinput
+    sub al, '0'
+    mov bl, al
+    
     mov ah, 9
     lea dx, result
+    int 21h
+    
+    mov dl, bl
+    mov ah, 2
     int 21h
     
     mov ah, 2
@@ -107,8 +128,12 @@ main proc
     int 21h
  
     mov ah, 9
-    lea dx, fid
+    lea dx, fnum
     int 21h
+    
+    mov ah, 1
+    int 21h
+    mov sinput, al
     
     mov ah, 2
     mov dl, 10
@@ -117,8 +142,12 @@ main proc
     int 21h
 
     mov ah, 9
-    lea dx, sid
+    lea dx, snum
     int 21h
+    
+    mov ah, 1
+    int 21h
+    mov sinput, al
         
     mov ah, 2
     mov dl, 10
@@ -126,8 +155,17 @@ main proc
     mov dl, 13
     int 21h
     
+    mov al, finput
+    sub al, sinput
+    add al, '0'
+    mov bl, al
+    
     mov ah, 9
     lea dx, result
+    int 21h
+    
+    mov dl, bl
+    mov ah, 2
     int 21h
         
     exit:
