@@ -1,64 +1,53 @@
-.MODEL SMALL
-.STACK 100H
-.DATA
-    MSG DB "Result: $"
-.CODE
-MAIN PROC
-   
-    MOV AX, @DATA
-    MOV DS, AX              
-    
-    MOV AH, 1
-    INT 21H
-    MOV BL,AL 
-    SUB BL,48  
-    
-    mov ah,2
-    mov dl,0dh
-    int 21h
-    mov dl,0ah
-    int 21h
-    
-    MOV AH, 1
-    INT 21H
-    SUB AL,48
-               
-              
-    ; Multiply AL and BL
-    MUL BL
-        AAM
-    ; Store the result in AX
-   ; MOV RESULT, AX
+.model small
+.stack 100h
 
-   
+.data
+    msg db 'result: $'
 
-    ; Display the result value  
-    MOV CX,AX 
+.code
+    main proc
+        mov ax, @data
+        mov ds, ax
     
-    ADD CH,48
-    ADD CL,48 
+        mov ah, 1
+        int 21h
+        mov bl, al
+        sub bl, 48
     
-    mov ah,2
-    mov dl,0dh
-    int 21h
-    mov dl,0ah
-    int 21h
+        mov ah, 2
+        mov dl, 0dh
+        int 21h
+        mov dl, 0ah
+        int 21h
     
+        mov ah, 1
+        int 21h
+        sub al, 48
     
-    ; Display the result message
-    MOV AH, 09h
-    LEA DX, MSG
-    INT 21h
+        mul bl
+        aam
     
-    MOV AH, 2       ; DOS function to print a character
-    MOV DL, CH        
-    INT 21h    
-    MOV DL, CL        
-    INT 21h
-
-    ; Terminate the program
-    MOV AH, 4Ch       ; DOS function to exit the program
-    INT 21h
-
-MAIN ENDP
-END MAIN
+        mov cx, ax
+        add ch, 48
+        add cl, 48
+    
+        mov ah, 2
+        mov dl, 0dh
+        int 21h
+        mov dl, 0ah
+        int 21h
+    
+        mov ah, 9
+        lea dx, msg
+        int 21h
+    
+        mov ah, 2
+        mov dl, ch
+        int 21h
+        mov dl, cl
+        int 21h
+    
+        mov ah, 4ch
+        int 21h
+    main endp
+end main
