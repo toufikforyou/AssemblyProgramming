@@ -1,86 +1,85 @@
-.MODEL SMALL 
-.STACK 100H
+.model small
+.stack 100h
 
-.DATA 
-    CR EQU 0DH 
-    LF EQU 0AH 
-    M1 DB CR,LF,'ENTER A HEXA DIGIT :','$' 
-    M2 DB CR,LF,'IN DECIMAL IT IS :' 
-    C1 DB ?,'$' 
-    M3 DB CR,LF,'DO YOU WANT TO DO IT AGAIN ?Y/N','$'  
-    M4 DB CR,LF,'ILLEGAL CHARACTER - ENTER 0..9 OR A..F :','$'  
-    M5 DB CR,LF,'IN DECIMAL IT IS :1' 
-    C2 DB ?,'$'      
-    M6 DB CR,LF,'ERROR!!! THREE TIMES!!! $' 
- 
+.data
+    cr equ 0dh
+    lf equ 0ah
+    m1 db cr, lf, 'ENTER A HEXA DIGIT :','$'
+    m2 db cr, lf, 'IN DECIMAL IT IS :'
+    c1 db ?,'$'
+    m3 db cr, lf, 'DO YOU WANT TO DO IT AGAIN ?Y/N','$'
+    m4 db cr, lf, 'ILLEGAL CHARACTER - ENTER 0..9 OR A..F :','$'
+    m5 db cr, lf, 'IN DECIMAL IT IS :1'
+    c2 db ?,'$'
+    m6 db cr, lf, 'ERROR!!! THREE TIMES!!! $'
 
-.CODE 
-    MAIN PROC 
-     MOV AX,@DATA 
-     MOV DS,AX 
-   START: 
-     MOV AH,9 
-     LEA DX,M1 
-     INT 21H 
-     
-   NEW:
-     MOV AH,1 
-     INT 21H 
-     
-     
-     CMP AL,'0' 
-     JL ILLEGAL ;jump if less
-     CMP AL,'9' 
-     JG ILLEGAL ; jump if greater
-      
-     MOV C1,AL 
-     MOV AH,9 
-     LEA DX,M2 
-     INT 21H 
-     
-   MSG:
-     MOV AH,9  
-     LEA DX,M3 
-     INT 21H 
-     
-     MOV AH,1 
-     INT 21H 
-     CMP AL,'Y' 
-     JE START    ; jump if equal
-     CMP AL,'y' 
-     JE START 
-     JMP END 
-     
-   ILLEGAL:
-     CMP AL,'A' 
-     JL ILLEGAL_1 
-     CMP AL,'F' 
-     JG ILLEGAL_1
-     SUB AL,11H 
-     MOV C2,AL 
-     
-     MOV AH,9 
-     LEA DX,M5 
-     INT 21H 
-     
-     JMP MSG 
-     
-   ILLEGAL_1:
-     MOV AH,9 
-     LEA DX,M4 
-     INT 21H
-     INC BL 
-     CMP BL,3 
-     JE END_1  
-     JMP NEW 
-     
-   END_1: 
-    MOV AH,9 
-    LEA DX,M6 
-    INT 21H  
-     
-   END:
-     MOV AH,4CH 
-     INT 21H 
-    MAIN ENDP 
-    END MAIN
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    start:
+        mov ah, 9
+        lea dx, m1
+        int 21h
+    
+    new:
+        mov ah, 1
+        int 21h
+    
+        cmp al, '0'
+        jl illegal
+        cmp al, '9'
+        jg illegal
+    
+        mov c1, al
+        mov ah, 9
+        lea dx, m2
+        int 21h
+    
+    msg:
+        mov ah, 9
+        lea dx, m3
+        int 21h
+    
+        mov ah, 1
+        int 21h
+        cmp al, 'Y'
+        je start
+        cmp al, 'y'
+        je start
+        jmp end
+    
+    illegal:
+        cmp al, 'A'
+        jl illegal_1
+        cmp al, 'F'
+        jg illegal_1
+        sub al, 11h
+        mov c2, al
+    
+        mov ah, 9
+        lea dx, m5
+        int 21h
+    
+        jmp msg
+    
+    illegal_1:
+        mov ah, 9
+        lea dx, m4
+        int 21h
+        inc bl
+        cmp bl, 3
+        je end_1
+        jmp new
+    
+    end_1:
+        mov ah, 9
+        lea dx, m6
+        int 21h
+    
+    end:
+        mov ah, 4ch
+        int 21h
+    main endp
+end main
