@@ -1,74 +1,70 @@
-.MODEL SMALL
-.STACK 100H
-
-.DATA
+.model small
+.stack 100h
+.data
     msg_1 DB 'Enter the first capital letter : $';message 1
     msg_2 DB 'Enter the second capital letter : $';message 2
     msg_3 DB 'The given capital letters in alphabetical order are : $';message
 
-    NEXT DB 0DH,0AH,"$"
+    next DB 0dh, 0ah, "$"
 
-.CODE
-    MAIN PROC
-        MOV AX, @DATA
-        MOV DS, AX 
+.code
+    main proc
+        mov ax, @data
+        mov ds, ax
         
-        MOV AH, 9 ; set string output function
-        LEA DX, NEXT ; Next line
-        INT 21H
+        mov ah, 9
+        lea dx, next
+        int 21h
         
-        LEA DX, msg_1 ; display message 1
-        INT 21H
+        lea dx, msg_1
+        int 21h
         
-        MOV AH, 1 ; set input function
-        INT 21H ; read first character
+        mov ah, 1
+        int 21h
         
-        MOV BL, AL ; save first character into BL
+        mov bl, al
+        mov ah, 9
         
-        MOV AH, 9 ; set string output function
+        lea dx, next
+        int 21h
         
-        LEA DX, NEXT ; new line
-        INT 21H
+        lea dx, msg_2
+        int 21h
         
-        LEA DX, msg_2 ; message 2
-        INT 21H
+        mov ah, 1
+        int 21h
         
-        MOV AH, 1 ; set input function
-        INT 21H ; read second character
+        mov bh, al
+        mov ah, 9
         
-        MOV BH, AL ; save second character into BH
+        lea dx, next
+        int 21h
         
-        MOV AH, 9 ; set string output function
+        lea dx, msg_3
+        int 21h
         
-        LEA DX, NEXT ; next line
-        INT 21H
+        mov ah, 2
+        cmp bl, bh
         
-        LEA DX, msg_3 ; message3
-        INT 21H
+        jae larger
         
-        MOV AH, 2 ; set output function
+        mov dl, bl
+        int 21h
         
-        CMP BL, BH
+        mov dl, bh
+        int 21h
         
-        JAE Larger_
-            MOV DL, BL
-            INT 21H
+        jmp exit
             
-            MOV DL, BH
-            INT 21H
+    larger:
+        mov dl, bh
+        int 21h
+        
+        mov dl, bl
+        int 21h
             
-            JMP _END
-        
-        Larger_:
-            MOV DL, BH
-            INT 21H
-            
-            MOV DL, BL
-            INT 21H
-        
-        _END:
-        
-        MOV AH, 4CH 
-        INT 21H
-     MAIN ENDP
-    END MAIN
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
